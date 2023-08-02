@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Page</title>
+</head>
+<body>
+  <div id="productList"></div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Replace 'YOUR_GRAPHQL_ENDPOINT' with your actual GraphQL endpoint URL.
+    const graphqlEndpoint = 'YOUR_GRAPHQL_ENDPOINT';
+    // GraphQL query to fetch products.
+    const query = `
+      query {
+        products {
+          id
+          name
+          price
+          description
+        }
+      }
+    `;
+    // Function to fetch data from GraphQL endpoint.
+    async function fetchData() {
+      try {
+        const response = await axios.post(graphqlEndpoint, { query });
+        const products = response.data.data.products;
+        renderProducts(products);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    }
+    // Function to render products on the page.
+    function renderProducts(products) {
+      const productListElement = document.getElementById('productList');
+      products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.innerHTML = `
+          <h2>${product.name}</h2>
+          <p>Price: $${product.price}</p>
+          <p>${product.description}</p>
+        `;
+        productListElement.appendChild(productItem);
+      });
+    }
+    // Call the fetchData function when the page loads.
+    window.onload = fetchData;
+  </script>
+</body>
+</html>
