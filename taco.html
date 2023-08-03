@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hackathon - Brand Product Page</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+    <script>
+        const el = document.querySelector("#model-viewer");
+        if (el) {
+            document.querySelector("#model-viewer").addEventListener('ar-status', (event) => {
+                if (event.detail.status === 'failed') {
+                    const error = document.querySelector("#error");
+                    error.classList.remove('hide');
+                    error.addEventListener('transitionend', (event) => {
+                        error.classList.add('hide');
+                    });
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            padding: 10px;
+            background-color: purple;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #error {
+            background-color: #ffffffdd;
+            border-radius: 16px;
+            padding: 16px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            transition: opacity 0.3s;
+        }
+
+        #error.hide {
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 2s, opacity 1s 1s;
+        }
+
+        model-viewer {
+            display: flex;
+            width: 1000px;
+            height: 650px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        Product AR Experience
+    </div>
+    <model-viewer src="resources/lunchwrap_taco.glb" ar ar-scale="fixed" camera-controls
+                touch-action="pan-y" auto-rotate alt="A 3D model of an Lunchwrap Taco"
+                skybox-image="resources/aircraft_workshop_01_1k.hdr" ios-src="resources/Lunchwrap_Taco.usdz"
+                xr-environment>
+                <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+                    👋 Activate AR
+                </button>
+            </model-viewer>
+</body>
+
+</html>
